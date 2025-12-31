@@ -1,0 +1,52 @@
+用途：
+这是一个可直接复制给 AI（例如 ChatGPT）的提示词（prompt），用于在你把本演示工程上传到 GitHub 并在其他机器上 `git clone` 后，自动为该 C 语言项目生成或修复必要的编辑器配置（`.vscode/tasks.json`、`.vscode/launch.json`）、`Makefile`、`run.sh` 等，使得打开项目后可以“一键运行/调试（F5）”而无需修改任何源码。
+
+如何使用：
+1. 把整个项目（包含本文件）推到 GitHub。  
+2. 在另一台机器上 `git clone` 后，打开项目根目录，复制本文件内容并粘贴到你要使用的 AI 聊天窗口（如 ChatGPT）。  
+3. 给 AI 执行 “请为此项目生成/更新以下文件并验证：.vscode/tasks.json, .vscode/launch.json, Makefile, run.sh。不要修改源代码。构建命令为 clang -g tree.c -o tree（或请根据源码自动选择），调试使用 LLDB。最后输出如何运行和验证的短命令。”
+
+提示词（可直接复制粘贴给 AI）：
+
+--- START PROMPT ---
+你是一个熟悉 C 语言、Makefile、VS Code 调试配置（tasks.json / launch.json）以及常见构建系统（Make/CMake）的工程助手。现在我把一个 C 项目仓库克隆到本地（项目根包含源文件，例如 `tree.c` ），请自动完成以下任务：
+
+1) 检查项目根下的源文件（例如 `*.c`）并选择合适的构建命令。若只有单文件 `*.c`，使用 clang 构建：`clang -g <file.c> -o <exe>`；若为多文件，生成简单的 `Makefile`（支持 `make`、`make run`、`make clean`）。
+
+2) 在项目根创建（或更新）以下文件：
+   - `.vscode/tasks.json`：添加一个构建任务，执行 `make`（或直接调用 clang），并标记为构建任务。问题匹配器使用 `$gcc`。
+   - `.vscode/launch.json`：添加一个 `cppdbg` 启动配置（或 `codelldb`），`preLaunchTask` 指向上面的构建任务，`program` 指向生成的可执行文件（如 `${workspaceFolder}/tree`），`cwd` 为 `${workspaceFolder}`，`MIMode` 设为 `lldb`。
+   - `Makefile`：如果不存在，生成一个最小 `Makefile`，支持 `all`/`run`/`clean` 目标；`run` 目标应运行生成的可执行文件。
+   - `run.sh`：简单脚本，调用 clang 或 `make` 并运行可执行文件，带可执行权限提示。
+
+3) 保持源代码不变。只修改/添加工具配置文件和脚本。
+
+4) 返回给我：
+   - 列出已创建/修改的文件路径及其简短说明；
+   - 给出在本机验证的最小命令（例如 `make run` 或 `bash run.sh`）以及如何在 VS Code 中一键运行（F5）的说明；
+   - 如果自动检测到多个 C 源文件，请生成对应的 `Makefile` 规则。
+
+不需要写 CI 脚本，也不要修改任何源文件的逻辑。
+--- END PROMPT ---
+
+上传到 GitHub 的简单步骤（本地操作示例）：
+
+1. 初始化并推送：
+
+   git init
+   git add .
+   git commit -m "Initial demo: binary-tree with AI setup prompt"
+   git branch -M main
+   git remote add origin <你的远程仓库地址>
+   git push -u origin main
+
+2. 使用说明（他人在新机器上）：
+   - git clone <仓库地址>
+   - 打开项目，复制本文件内容并粘贴给 AI（或把本文件内容作为 prompt 直接发送给 AI）
+   - 按 AI 指示生成配置文件（或直接让 AI 在编辑器中生成文件）
+   - 在 VS Code 中按 F5 即可一键构建并运行
+
+可选自动化思路（高级，需额外实现）：
+- 可以写一个 `setup_ai_config.sh` 脚本，提示用户粘贴 GPT 响应或调用本地/远程 AI API（需用户提供 API KEY），然后把 AI 返回的文件写入磁盘。这一步我暂不实现，除非你授权并提供 API 细节。
+
+--- 文件结束 ---
