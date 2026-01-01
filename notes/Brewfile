@@ -1,0 +1,42 @@
+brew "mas"
+brew "neofetch"
+brew "node"
+brew "python@3.14"
+brew "tldr"
+cask "aldente"
+cask "github"
+cask "iina"
+cask "jordanbaird-ice"
+cask "keyclu"
+cask "miniforge"
+cask "raycast"
+cask "stats"
+cask "termius"
+cask "the-unarchiver"
+cask "zotero"
+mas "Dropover", id: 1355679052
+mas "iMovie 剪辑", id: 408981434
+mas "Keynote讲演", id: 409183694
+mas "Numbers表格", id: 409203825
+mas "Pages文稿", id: 409201541
+mas "QQ", id: 451108668
+mas "WPS Office", id: 1443749478
+mas "库乐队", id: 682658836
+mas "微信", id: 836500024
+vscode "franneck94.c-cpp-runner"
+vscode "github.copilot"
+vscode "github.copilot-chat"
+vscode "ms-ceintl.vscode-language-pack-zh-hans"
+vscode "ms-python.debugpy"
+vscode "ms-python.python"
+vscode "ms-python.vscode-pylance"
+vscode "ms-python.vscode-python-envs"
+vscode "ms-vscode-remote.remote-ssh"
+vscode "ms-vscode-remote.remote-ssh-edit"
+vscode "ms-vscode.cmake-tools"
+vscode "ms-vscode.cpptools"
+vscode "ms-vscode.cpptools-extension-pack"
+vscode "ms-vscode.cpptools-themes"
+vscode "ms-vscode.remote-explorer"
+vscode "vadimcn.vscode-lldb"
+vscode "yzhang.markdown-all-in-one"
