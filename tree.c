@@ -109,7 +109,6 @@ void freeTree(Node* root) {
     freeTree(root->right);
     free(root);
 }
-
 /* 示例：构建一棵树并演示插入、遍历、查找、删除 */
 int main(void) {
     Node* root = NULL;
